@@ -119,6 +119,7 @@ const handleRequests = (request, response) => {
 
     default:
       response.writeHead(404);
+      response.end("Error 404 - brain not found :P")
       break;
   }
 
