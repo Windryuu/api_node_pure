@@ -32,7 +32,7 @@ const handlePost = (request, response) => {
   let articleId = (url.pathname.split('/'))
   switch(url.pathname){
     case '/articles':
-
+      console.log("add nodemon")
       request.on('data', (chunk) => {
         body.push(chunk);
       }).on('end', () => {
@@ -44,7 +44,7 @@ const handlePost = (request, response) => {
           lebody.note,lebody.quantity,poolOfArticle)
         response.end(JSON.stringify(poolOfArticle))
       });
-      
+
       return;
   }
 }
