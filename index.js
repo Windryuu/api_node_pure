@@ -27,11 +27,24 @@ const handleGet = (request, response) => {
 const handlePost = (request, response) => { 
   const url = new URL(request.url, 'http://localhost/'); //   /?toto=bonjour&tata=aurevoir
   const params = Object.fromEntries(url.searchParams);   //   { toto: 'bonjour', tata: 'aurevoir' }
+  let body = [];
+
   let articleId = (url.pathname.split('/'))
   switch(url.pathname){
     case '/articles':
-      let newArt = createNewArticle(compteurID,"cerise","une cerise","fruit",3.3,0.1,5,7,poolOfArticle)
-      response.end(JSON.stringify(poolOfArticle))
+
+      request.on('data', (chunk) => {
+        body.push(chunk);
+      }).on('end', () => {
+        body = Buffer.concat(body).toString();
+        let lebody = JSON.parse(body)
+        let newArt = createNewArticle(
+          compteurID,lebody.nom,lebody.description,
+          lebody.category,lebody.prix,lebody.promo,
+          lebody.note,lebody.quantity,poolOfArticle)
+        response.end(JSON.stringify(poolOfArticle))
+      });
+      
       return;
   }
 }
